@@ -1,3 +1,4 @@
+from helpers.bio_files import read_top_descriptions, write_lines
 from helpers.fastq import (
     check_gc,
     check_length,
@@ -41,3 +42,18 @@ def filter_fastq(
                 and check_quality(quality, quality_threshold)
             ):
                 write_record(output_file, record)
+
+
+def parse_blast_output(input_file: str, output_file: str) -> None:
+    """
+    Takes the best hit for every query from a BLAST
+    text report and saves them alphabetically sorted.
+
+    Arguments:
+    input_file: str, path to the BLAST results txt file.
+    output_file: str, path to the output file.
+
+    Returns None.
+    """
+    descriptions = read_top_descriptions(input_file)
+    write_lines(output_file, sorted(descriptions))
